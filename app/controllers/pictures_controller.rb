@@ -1,46 +1,50 @@
 class PicturesController < ApplicationController
 
   def index
-	@pictures = [
-      {
-        :title  => "The old church on the coast of White sea",
-        :artist => "Sergey Ershov",
-        :url    => "http://bitmakerlabs.s3.amazonaws.com/photogur/house.jpg"
-      },
-      {
-        :title  => "Sea Power",
-        :artist => "Stephen Scullion",
-        :url    => "http://bitmakerlabs.s3.amazonaws.com/photogur/wave.jpg"
-      },
-      {
-        :title  => "Into the Poppies",
-        :artist => "John Wilhelm",
-        :url    => "http://bitmakerlabs.s3.amazonaws.com/photogur/girl.jpg"
-      }
-    ]
+	@pictures = Picture.all
   end
 
   def show
-  	@pictures = Picture.all 
+  	@picture = Picture.find(params[:id]) 
   end
 
   def new
-
+  	@picture = Picture.new
   end
 
   def edit
-  	
+  	@picture = Picture.find(params[:id])
   end
 
   def create
-    	
+  	@picture = Picture.new(picture_params)
+  	if @picture.save
+  		redirect_to pictures_url
+  	else
+  		render :new
+  	end
   end
 
   def update
-  	
+  	@picture = Picture.find(params[:id])
+
+  	if @picture.update_attributes(picture_params)
+  	  redirect_to "/pictures/#{@picture.id}"
+  	else
+  	  render :edit
+  	end
   end
 
   def destroy
-  	
+  	@picture = Picture.find(params[:id])
+  	@picture.destroy
+  	redirect_to pictures_url
   end
+
+  private
+  
+  def picture_params
+  	params.require(:picture).permit(:artist,:title, :url)
+  end
+
 end
