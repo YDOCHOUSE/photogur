@@ -1,10 +1,9 @@
-<h1>The Most Viral images on the internet, sorted by popularity	</h1>
 
 <main class="main">
 
 
 <% @pictures.each do |picture| %>
-  <p><%= picture.title %>, <%= picture.artist %></p>
+  <figure><figcap class="caption"><%= picture.title %>, <%= picture.artist %></figcap></figure>
   <%= link_to image_tag(picture.url), "pictures/#{picture.id}" %>
 <% end %>
 </main>
