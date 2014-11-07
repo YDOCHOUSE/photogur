@@ -1,7 +1,8 @@
 class PicturesController < ApplicationController
 
   def index
-	@pictures = Picture.all
+	# @pictures = Picture.most_recent_five
+  @most_recent_pictures = Picture.most_recent_five
   end
 
   def show
@@ -19,7 +20,7 @@ class PicturesController < ApplicationController
   def create
   	@picture = Picture.new(picture_params)
   	if @picture.save
-  		redirect_to pictures_url
+  		redirect_to "/pictures"
   	else
   		render :new
   	end
@@ -44,7 +45,7 @@ class PicturesController < ApplicationController
   private
   
   def picture_params
-  	params.require(:picture).permit(:artist,:title, :url)
+  	params.require(:picture).permit(:artist, :title, :url)
   end
 
 end
